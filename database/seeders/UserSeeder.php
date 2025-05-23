@@ -10,12 +10,14 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        User::create([
-            'firstname' => 'Ylana',
-            'lastname' => 'Aleria',
-            'email' => 'aleanalyn15@gmail.com',
-            'password' => Hash::make('alialiali'), // Secure password hashing
-            'role_id' => 1
-        ]);
+        User::updateOrCreate(
+            ['email' => 'aleanalyn15@gmail.com'], // Find user by email
+            [
+                'firstname' => 'Ylana',
+                'lastname' => 'Aleria',
+                'password' => Hash::make('alialiali'), // Secure password hashing
+                'role_id' => 1
+            ]
+        );
     }
 }
