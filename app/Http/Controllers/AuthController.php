@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Pet;
@@ -31,9 +30,8 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
 
-            // Redirect based on role_id
             if ($user->role_id == 1) {
-                return redirect()->route('admin.dashboard');
+                return redirect()->intended(config('filament.path', 'admin'));
             } elseif ($user->role_id == 2) {
                 return redirect()->route('owner.dashboard');
             }
@@ -72,13 +70,12 @@ class AuthController extends Controller
         return view('owner.dashboard', compact('pets'));
     }
 
-    /* FORGOT PASSWORD */
-    function forgotPassword()
+    public function forgotPassword()
     {
         return view("auth.forgot-password");
     }
 
-    function forgotPasswordPost(Request $request)
+    public function forgotPasswordPost(Request $request)
     {
         $request->validate([
             'email' => "required|email|exists:users",
@@ -104,15 +101,15 @@ class AuthController extends Controller
         }
 
         return redirect()->to(route("forgot.password"))
-            ->with("success", "We have sent an email to reset password.");
+            ->with("success", "We have sent an email to reset your password.");
     }
 
-    function resetPassword($token)
+    public function resetPassword($token)
     {
         return view("auth.new-password", compact('token'));
     }
 
-    function resetPasswordPost(Request $request)
+    public function resetPasswordPost(Request $request)
     {
         $request->validate([
             "email" => "required|email|exists:users",
@@ -163,7 +160,6 @@ class AuthController extends Controller
         return redirect()->back()->with('success', 'Appointment scheduled successfully.')->withFragment('appointments-' . $request->PetID);
     }
 
-    /* CHANGE PASSWORD */
     public function changePassword()
     {
         return view('owner.change-password');
@@ -205,7 +201,6 @@ class AuthController extends Controller
             ->with('success', 'Password changed successfully.');
     }
 
-    /* LOGOUT */
     public function logout(Request $request)
     {
         Auth::logout();
