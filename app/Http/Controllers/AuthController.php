@@ -36,6 +36,7 @@ class AuthController extends Controller
                 return redirect()->route('owner.dashboard');
             }
 
+            Auth::logout();
             return abort(403, 'Unauthorized access.');
         }
 
