@@ -40,6 +40,9 @@ COPY . .
 # Install PHP dependencies without dev and optimize autoloader
 RUN composer install --no-dev --optimize-autoloader
 
+# Install Filament 3 compatible with Laravel 11
+RUN composer require filament/filament:"^3.0" --no-interaction --no-scripts
+
 # Set ownership to www-data user for storage and cache folders
 RUN chown -R www-data:www-data storage bootstrap/cache
 
@@ -52,4 +55,3 @@ CMD php artisan config:cache && \
     php artisan db:seed --force && \
     php artisan storage:link && \
     apache2-foreground
-
