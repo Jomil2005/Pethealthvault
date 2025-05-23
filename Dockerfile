@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y \
     libsodium-dev \
     libpq-dev \
     unzip \
+    git \
+    curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
         bcmath \
@@ -28,28 +30,29 @@ RUN apt-get update && apt-get install -y \
 # Set Apache to serve from Laravel's public directory
 RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
 
-# Install Composer globally
+# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory to Apache root
+# Set working directory
 WORKDIR /var/www/html
 
-# Copy application files into container
+# Copy app code
 COPY . .
 
-# Install PHP dependencies without dev and optimize autoloader
-RUN composer install --no-dev --optimize-autoloader
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress \
+    && chown -R www-data:www-data storage bootstrap/cache
 
-# Install Filament 3 compatible with Laravel 11
-RUN composer require filament/filament:"^3.0" --no-interaction --no-scripts
+# Set permissions
+RUN chmod -R 775 storage bootstrap/cache
 
-# Set ownership to www-data user for storage and cache folders
-RUN chown -R www-data:www-data storage bootstrap/cache
-
-# Expose port 80 for Apache
+# Expose Apache
 EXPOSE 80
 
+# Start Laravel and Apache
 CMD php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan view:cache && \
     php artisan key:generate && \
     php artisan migrate --force && \
     php artisan db:seed --force && \
