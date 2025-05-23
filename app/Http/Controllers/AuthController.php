@@ -31,8 +31,9 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
 
+            // Redirect based on role_id
             if ($user->role_id == 1) {
-                return redirect()->intended('admin');
+                return redirect()->route('admin.dashboard');
             } elseif ($user->role_id == 2) {
                 return redirect()->route('owner.dashboard');
             }
@@ -49,10 +50,9 @@ class AuthController extends Controller
     {
         $userId = Auth::id();
         $pets = Pet::with([
-            'diagnosis.medication',  
+            'diagnosis.medication',
             'vaccination',
             'appointment',
-
         ])
             ->where('UserID', $userId)
             ->get();
@@ -72,7 +72,6 @@ class AuthController extends Controller
         return view('owner.dashboard', compact('pets'));
     }
 
-
     /* FORGOT PASSWORD */
     function forgotPassword()
     {
@@ -81,12 +80,11 @@ class AuthController extends Controller
 
     function forgotPasswordPost(Request $request)
     {
-
         $request->validate([
             'email' => "required|email|exists:users",
         ]);
 
-        $token = Str::random(length: 64);
+        $token = Str::random(64);
 
         DB::table('password_reset_tokens')->where('email', $request->email)->delete();
 
@@ -105,9 +103,8 @@ class AuthController extends Controller
             return back()->with('error', 'Mail sending failed: ' . $e->getMessage());
         }
 
-
         return redirect()->to(route("forgot.password"))
-            ->with("success", "We have send an email to reset password.");
+            ->with("success", "We have sent an email to reset password.");
     }
 
     function resetPassword($token)
@@ -133,7 +130,6 @@ class AuthController extends Controller
                 ->with("error", "Invalid or expired token");
         }
 
-
         User::where("email", $request->email)
             ->update(["password" => Hash::make($request->password)]);
 
@@ -143,8 +139,7 @@ class AuthController extends Controller
             ->with("success", "Password reset successful");
     }
 
-
-     public function store(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'OwnerEmail' => 'required|email|exists:users,email',
@@ -167,7 +162,6 @@ class AuthController extends Controller
 
         return redirect()->back()->with('success', 'Appointment scheduled successfully.')->withFragment('appointments-' . $request->PetID);
     }
-
 
     /* CHANGE PASSWORD */
     public function changePassword()
@@ -210,7 +204,6 @@ class AuthController extends Controller
         return redirect()->route('owner.dashboard')
             ->with('success', 'Password changed successfully.');
     }
-
 
     /* LOGOUT */
     public function logout(Request $request)
