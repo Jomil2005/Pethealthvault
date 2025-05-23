@@ -1,0 +1,126 @@
+services:
+  - type: web
+    name: pethealthvault
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      # App config
+      - key: APP_NAME
+        value: Laravel
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        value: base64:BYMouNkVMsaDj5kw651GvH/OPKtt6qhdceRZfccI4Mo=
+      - key: APP_DEBUG
+        value: false
+      - key: APP_TIMEZONE
+        value: UTC
+      - key: APP_URL
+        value: https://pethealthvault.onrender.com
+      - key: APP_LOCALE
+        value: en
+      - key: APP_FALLBACK_LOCALE
+        value: en
+      - key: APP_FAKER_LOCALE
+        value: en_US
+      - key: APP_MAINTENANCE_DRIVER
+        value: file
+      - key: PHP_CLI_SERVER_WORKERS
+        value: 4
+      - key: BCRYPT_ROUNDS
+        value: 12
+
+      # Logging
+      - key: LOG_CHANNEL
+        value: stack
+      - key: LOG_STACK
+        value: single
+      - key: LOG_DEPRECATIONS_CHANNEL
+        value: null
+      - key: LOG_LEVEL
+        value: debug
+
+      # Database
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: dpg-d0mpp1buibrs73etst3g-a
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        value: pethealthvault_db_vaet
+      - key: DB_USERNAME
+        value: pethealthvault_db_vaet_user
+      - key: DB_PASSWORD
+        value: ifyPgiX9qRLygLrYtDlzEuKriJOChrwb
+
+      # Sessions
+      - key: SESSION_DRIVER
+        value: database
+      - key: SESSION_LIFETIME
+        value: 120
+      - key: SESSION_ENCRYPT
+        value: false
+      - key: SESSION_PATH
+        value: /
+      - key: SESSION_DOMAIN
+        value: null
+
+      # Caching
+      - key: CACHE_STORE
+        value: database
+      - key: CACHE_PREFIX
+        value: ''
+
+      # Queues
+      - key: QUEUE_CONNECTION
+        value: database
+
+      # Filesystem
+      - key: FILESYSTEM_DISK
+        value: local
+
+      # Redis (optional, not used unless Redis is installed and configured)
+      - key: REDIS_CLIENT
+        value: phpredis
+      - key: REDIS_HOST
+        value: 127.0.0.1
+      - key: REDIS_PASSWORD
+        value: null
+      - key: REDIS_PORT
+        value: 6379
+
+      # Mail
+      - key: MAIL_MAILER
+        value: smtp
+      - key: MAIL_HOST
+        value: smtp.gmail.com
+      - key: MAIL_PORT
+        value: 465
+      - key: MAIL_USERNAME
+        value: pethealthvault@gmail.com
+      - key: MAIL_PASSWORD
+        value: ucnjqnesbkxdrjne
+      - key: MAIL_ENCRYPTION
+        value: tls
+      - key: MAIL_FROM_ADDRESS
+        value: pethealthvault@gmail.com
+      - key: MAIL_FROM_NAME
+        value: PetHealthVault
+
+      # AWS (currently empty)
+      - key: AWS_ACCESS_KEY_ID
+        value: ''
+      - key: AWS_SECRET_ACCESS_KEY
+        value: ''
+      - key: AWS_DEFAULT_REGION
+        value: us-east-1
+      - key: AWS_BUCKET
+        value: ''
+      - key: AWS_USE_PATH_STYLE_ENDPOINT
+        value: false
+
+      # Vite
+      - key: VITE_APP_NAME
+        value: Laravel
