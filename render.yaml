@@ -10,9 +10,9 @@ services:
       - key: APP_NAME
         value: Laravel
       - key: APP_ENV
-        value: local
+        value: production
       - key: APP_KEY
-        value: base64:Zo483AggFaxGpRGChFLsG3atLP+blFr34OdQD1JGSyA=
+        value: base64:0pDIZacOQmXueZvXbmfy/VO6gqgNayRSCW5QTlkmDbU=
       - key: APP_DEBUG
         value: true
       - key: APP_TIMEZONE
@@ -50,7 +50,7 @@ services:
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
-        value: dpg-d0ohm5fdiees739cvi40-a.render.com   # <-- FULL hostname here
+        value: dpg-d0ohm5fdiees739cvi40-a.oregon-postgres.render.com
       - key: DB_PORT
         value: 5432
       - key: DB_DATABASE
@@ -70,7 +70,7 @@ services:
       - key: SESSION_PATH
         value: /
       - key: SESSION_DOMAIN
-        value: null
+        value: https://pethealthvault-x0de.onrender.com
 
       # Broadcasting
       - key: BROADCAST_CONNECTION
