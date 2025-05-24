@@ -10,7 +10,7 @@ services:
       - key: APP_NAME
         value: Laravel
       - key: APP_ENV
-        value: production
+        value: local
       - key: APP_KEY
         value: base64:Zo483AggFaxGpRGChFLsG3atLP+blFr34OdQD1JGSyA=
       - key: APP_DEBUG
