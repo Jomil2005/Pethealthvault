@@ -5,11 +5,6 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile
 
-    dns:
-      nameservers:
-        - 8.8.8.8
-        - 1.1.1.1
-
     envVars:
       # App config
       - key: APP_NAME
@@ -24,16 +19,20 @@ services:
         value: UTC
       - key: APP_URL
         value: https://pethealthvault.onrender.com
+
       - key: APP_LOCALE
         value: en
       - key: APP_FALLBACK_LOCALE
         value: en
       - key: APP_FAKER_LOCALE
         value: en_US
+
       - key: APP_MAINTENANCE_DRIVER
         value: file
+
       - key: PHP_CLI_SERVER_WORKERS
         value: 4
+
       - key: BCRYPT_ROUNDS
         value: 12
 
@@ -51,15 +50,15 @@ services:
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
-        value: dpg-d0mpp1buibrs73etst3g-a.render.com
+        value: dpg-d0ohm5fdiees739cvi40-a.render.com
       - key: DB_PORT
         value: 5432
       - key: DB_DATABASE
-        value: pethealthvault_db_vaet
+        value: pethealthvault_db_olo0
       - key: DB_USERNAME
-        value: pethealthvault_db_vaet_user
+        value: pethealthvault_db_olo0_user
       - key: DB_PASSWORD
-        value: ifyPgiX9qRLygLrYtDlzEuKriJOChrwb
+        value: 6zrAb1HN0ES5YZ9Fbf7bA6sFRrruWyek
 
       # Sessions
       - key: SESSION_DRIVER
@@ -73,21 +72,29 @@ services:
       - key: SESSION_DOMAIN
         value: null
 
-      # Caching
-      - key: CACHE_STORE
-        value: database
-      - key: CACHE_PREFIX
-        value: ''
-
-      # Queues
-      - key: QUEUE_CONNECTION
-        value: database
+      # Broadcasting
+      - key: BROADCAST_CONNECTION
+        value: log
 
       # Filesystem
       - key: FILESYSTEM_DISK
         value: local
 
-      # Redis (optional)
+      # Queues
+      - key: QUEUE_CONNECTION
+        value: database
+
+      # Cache
+      - key: CACHE_STORE
+        value: database
+      - key: CACHE_PREFIX
+        value: ''
+
+      # Memcached (unused)
+      - key: MEMCACHED_HOST
+        value: 127.0.0.1
+
+      # Redis
       - key: REDIS_CLIENT
         value: phpredis
       - key: REDIS_HOST
