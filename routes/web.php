@@ -1,7 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\AuthController;
+
+// Quick DB test route (no auth required)
+Route::get('/test-db', function () {
+    try {
+        DB::connection()->getPdo();
+        $dbName = DB::connection()->getDatabaseName();
+        return "✅ Connected successfully to database: <strong>{$dbName}</strong>";
+    } catch (\Exception $e) {
+        return "❌ Database connection error: " . $e->getMessage();
+    }
+});
 
 Route::get('/', function () {
     return redirect()->route('login');
