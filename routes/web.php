@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AuthController;
 
 // Quick DB test route (no auth required)
@@ -29,6 +30,24 @@ Route::get('/forget-password', [AuthController::class, 'forgotPassword'])->name(
 Route::post('/forgot-password', [AuthController::class, 'forgotPasswordPost'])->name('forgot.password.post');
 Route::get('/reset-password/{token}', [AuthController::class, 'resetPassword'])->name('reset.password');
 Route::post('/reset-password', [AuthController::class, 'resetPasswordPost'])->name('reset.password.post');
+
+// Debug route to show last 20 lines of laravel.log
+Route::get('/debug-log', function () {
+    $logPath = storage_path('logs/laravel.log');
+    if (!file_exists($logPath)) {
+        return response()->json(['error' => 'Log file not found.']);
+    }
+    $log = file($logPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $lastLines = array_slice($log, -20);
+    return response()->json(['last_lines' => $lastLines]);
+});
+
+// Debug route to run migrations (use carefully!)
+Route::get('/run-migrations', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return '✅ Migrations run successfully';
+});
+
 
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {
