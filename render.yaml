@@ -50,7 +50,7 @@ services:
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
-        value: dpg-d0ohm5fdiees739cvi40-a.render.com
+        value: dpg-d0ohm5fdiees739cvi40-a
       - key: DB_PORT
         value: 5432
       - key: DB_DATABASE
