@@ -14,7 +14,7 @@ services:
       - key: APP_KEY
         value: base64:Zo483AggFaxGpRGChFLsG3atLP+blFr34OdQD1JGSyA=
       - key: APP_DEBUG
-        value: false
+        value: true
       - key: APP_TIMEZONE
         value: UTC
       - key: APP_URL
